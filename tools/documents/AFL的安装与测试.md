@@ -30,7 +30,7 @@
    $ gcc -v
    ```
 
-   ![image-20221121152053363](\\documents\pictures\image-20221121152053363.png)
+   ![image-20221121152053363](\\pictures\image-20221121152053363.png)
 
 4. 安装make
 
@@ -98,13 +98,13 @@
 
    结果如下：
    
-   ![image-20221121153334347](\\documents\pictures\image-20221121153334347.png)
+   ![image-20221121153334347](\\pictures\image-20221121153334347.png)
 
 ​		可以看到在编译过程中，编译器已经提示存在漏洞，不理会，用AFL去测试。
 
 4. 在test目录下创建fuzz_in和fuzz_out文件夹。进入fuzz_in下，创建testcase文件，内容随意（保持简短）。
 
-![image-20221121154422580](\\documents\pictures\image-20221121154422580.png)
+![image-20221121154422580](\\pictures\image-20221121154422580.png)
 
 5. 进行fuzz
 
@@ -112,7 +112,7 @@
    $ afl-fuzz -i fuzz_in -o fuzz_out ./afl_test1
    ```
 
-   遇到报错：![image-20221121161518024](\\documents\pictures\image-20221121161518024.png)
+   遇到报错：![image-20221121161518024](\\pictures\image-20221121161518024.png)
 
    解决办法：
 
@@ -132,7 +132,7 @@
 
 6. fuzz结果：
 
-   ![image-20221121162344193](\\documents\pictures\image-20221121162344193.png)
+   ![image-20221121162344193](\\pictures\image-20221121162344193.png)
 
    可能会提示屏幕太小放不下，将虚拟机和terminal窗口全屏即可。
 
@@ -178,7 +178,7 @@
 
    如果报错如下：
 
-   ![image-20221122150617173](\\documents\pictures\image-20221122150617173.png)
+   ![image-20221122150617173](\\pictures\image-20221122150617173.png)
 
    则在root权限下，执行rm -f /usr/bin/pod2man  然后重新make install：
 
