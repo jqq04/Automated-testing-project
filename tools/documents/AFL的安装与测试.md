@@ -12,25 +12,12 @@
 
    [(14条消息) Linux下安装AFL && 报错“Pipe at the beginning of ‘core_pattern’“解决方案_是周周不是粥粥的博客-CSDN博客](https://blog.csdn.net/weixin_45225566/article/details/115877331)
 
-2. 创建lab文件夹，在termina下 
-
-   ```
-   $ git clone https://github.com/google/AFL.git`
-   ```
-
-3. 安装gcc
+2. 安装gcc和g++
 
    ```
    $ sudo apt-get install gcc
+   $ sudo apt-get install g++
    ```
-
-   检查gcc是否安装成功
-
-   ```
-   $ gcc -v
-   ```
-
-   ![image-20221121152053363](\\pictures\image-20221121152053363.png)
 
 4. 安装make
 
@@ -38,9 +25,10 @@
    $ apt install make
    ```
 
-5. 安装afl
+5. 下载并安装afl
 
    ```
+   $ git clone https://github.com/google/AFL.git`
    $ cd AFL
    $ make
    $ sudo make install
@@ -154,7 +142,7 @@
    $ git clone https://github.com/openssl/openssl --branch=OpenSSL_1_0_1f --depth=1
    ```
 
-   该版本（1.0.1f）是一个有着安全漏洞的源码版本
+   该版本（1.0.1f）是一个有着安全漏洞的源码版本,下载最新版本也可（去掉branch）
 
 2. 使用afl进行编译
 
@@ -262,8 +250,47 @@
    $ sudo make install
    ```
 
-   
+5. 开始fuzz
 
-   
+   有点问题
 
+### 5. 对binutils进行fuzz
+
+1. 下载解压并编译binutil-2.37
+
+   ```
+   $ wget https://ftp.gnu.org/gnu/binutils/binutils-2.37.tar.gz
+   $ tar -zxvf binutils-2.37.tar.gz -C ./
+   $ cd binutils-2.37
+   $ export CC=afl-gcc CXX=afl-g++
+   $ ./configure
+   $ make
+   ```
+
+2. 创建fuzz_in文件夹，里面再创建testcase文件，内容为hello
+
+3. 在binutils-2.37中，开始fuzz，一共有6个target
+
+   ```
+   $ afl-fuzz -i fuzz_in -o fuzz_out ./binutils/size @@
+   ```
+
+   ```
+   $ afl-fuzz -i fuzz_in -o fuzz_out ./binutils/readelf -a @@
+   ```
+
+   ```
+   $ afl-fuzz -i fuzz_in -o fuzz_out ./binutils/objdump -SD @@
+   ```
+
+   ```
+   $ afl-fuzz -i fuzz_in -o fuzz_out ./binutils/nm-new-c @@
+   ```
+
+   ```
    
+   ```
+
+   ```
+   
+   ```
