@@ -191,7 +191,9 @@
 
    由于找不到可执行文件，所以不知道该怎么进行fuzz
 
+   设置target为./apps/openssl进行fuzz，出现问题
    
+   <img src="\\pictures\5.png" alt="5" style="zoom:80%;" />
 
 ### 4. 对libxml2进行fuzz
 
@@ -271,26 +273,122 @@
 
 3. 在binutils-2.37中，开始fuzz，一共有6个target
 
-   ```
-   $ afl-fuzz -i fuzz_in -o fuzz_out ./binutils/size @@
-   ```
+    ```
+    $ afl-fuzz -i fuzz_in -o fuzz_out ./binutils/size @@  
+    ```
 
-   ```
-   $ afl-fuzz -i fuzz_in -o fuzz_out ./binutils/readelf -a @@
-   ```
+    ```
+    $ afl-fuzz -i fuzz_in -o fuzz_out ./binutils/readelf -a @@
+    ```
 
-   ```
-   $ afl-fuzz -i fuzz_in -o fuzz_out ./binutils/objdump -SD @@
-   ```
-
-   ```
-   $ afl-fuzz -i fuzz_in -o fuzz_out ./binutils/nm-new-c @@
-   ```
-
-   ```
+    ```
+    $ afl-fuzz -i fuzz_in -o fuzz_out ./binutils/objdump -SD @@
+    ```
    
-   ```
+    ```
+    $ afl-fuzz -i fuzz_in -o fuzz_out ./binutils/nm-new -C @@
+    ```
+   
+    ```
+    $ afl-fuzz -i fuzz_in -o fuzz_out2 ./binutils/strip-new -o output @@ 
+    ```
+
+    ```
+     
+    ```
+
+### 6. 对expat进行fuzz
+
+1. clone并编译expat项目
 
    ```
-   
+   $ git clone https://github.com/libexpat/libexpat.git
+   $ cd libexpat/expat
+   $ export CC=afl-gcc CXX=afl-g++
+   $ ./configure --disable-shared
+   $ make
+   $ sudo make install 
    ```
+
+   注意./configure时，需要--disable-shared
+
+2. 创建fuzz_in文件夹，里面再创建testcase文件，为空
+
+3. 开始fuzz，target为./xmlwf/xmlwf
+
+   ```
+   $ afl-fuzz -i fuzz_in -o fuzz_out ./xmlwf/xmlwf
+   ```
+
+
+### 7. 对xpdf进行fuzz
+
+1. 下载并编译
+
+   ```
+   $ wget https://dl.xpdfreader.com/old/xpdf-3.02.tar.gz
+   $ tar -xvzf xpdf-3.02.tar.gz
+   $ cd xpdf-3.02
+   $ export CC=afl-gcc CXX=afl-g++
+   $ ./configure
+   $ make
+   ```
+
+2. 创建fuzz_in文件夹，里面再创建testcase文件，为空
+
+3. 开始fuzz，target为./xpdf/pdfimages
+
+   ```
+   $ afl-fuzz -i fuzz_in -o fuzz_out ./xpdf/pdfimages @@ 
+   ```
+
+   发现问题
+
+   <img src="\\pictures\4.png" alt="4" style="zoom:80%;" />
+
+### 8.对splite进行fuzz
+
+1. 下载并编译
+
+   进入https://www.sqlite.org/index.html进行下载
+
+   ```
+   $ tar -xvzf sqlite-autoconf-3400000.tar.gz
+   $ cd sqlite-autoconf-3400000
+   $ export CC=afl-gcc CXX=afl-g++
+   $ ./configure
+   $ make
+   ```
+
+2. 创建fuzz_in文件夹，里面再创建testcase文件，内容为hello
+
+3. 开始fuzz，目标为sqlite3
+
+   ```
+   $ afl-fuzz -i fuzz_in -o fuzz_out ./sqlite3 @@
+   ```
+
+
+### 9.对matio进行fuzz
+
+1. 下载并编译
+
+   ```
+   $ git clone https://github.com/tbeu/matio.git
+   $ cd matio
+   $ export CC=afl-gcc CXX=afl-g++
+   $ ./configure --disable-shared
+   $ make
+   ```
+
+   注意./configure时，需要加--disable-shared
+
+2. 创建fuzz_in文件夹，里面再创建testcase文件，内容为hello
+
+3. 开始fuzz，目标为./tools/matdump
+
+   ```
+   $ afl-fuzz -i fuzz_in -o fuzz_out ./tools/matdump @@
+   ```
+
+   
