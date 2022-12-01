@@ -96,7 +96,7 @@
    ./make
    
    target_arr=("size" "readelf" "objdump" "cxxfilt" "strip_new" "nm_new")​
-   for target in ${target_arr}; do
+   for target in ${target_arr[@]}; do
    	dir=`ls ../${target}_fuzz_out/queue`
    	for file in ${dir}; do
    		if [ ${file:10:3} = "src" ]; then
@@ -107,4 +107,3 @@
    
    
    ```
-   
